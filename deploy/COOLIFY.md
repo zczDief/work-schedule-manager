@@ -46,6 +46,24 @@ Um novo deploy reaproveita esses volumes e não roda o instalador de novo. Módu
 | `ADMIN_PASSWORD` | vazio | Senha do primeiro administrador. Vazio gera uma senha. |
 | `EMAIL_NOTIFICATIONS_ENABLED` | `false` | Liga o envio de e-mail quando houver SMTP acessível pelo PHP `mail()`. |
 
+## Dados de demonstração
+
+No terminal do container `web`, depois que a instalação terminou:
+
+```bash
+php tools/seed-demo.php --yes
+```
+
+Isso cria pessoas, uma escala publicada, um rascunho, uma escala arquivada, pedidos de folga, avisos, confirmações de leitura e um convite pendente. A conta de administrador não muda. Todas as contas de demonstração entram com a senha `demo-password`.
+
+Para substituir esses dados:
+
+```bash
+php tools/seed-demo.php --yes --force
+```
+
+Use isso só numa base de exploração. Os usuários criados começam com `demo.`.
+
 ## Verificação local
 
 Na raiz do repositório, com Docker:

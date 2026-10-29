@@ -165,6 +165,22 @@ http://127.0.0.1:8080
 
 The built-in PHP server is intended for development only.
 
+## Demonstration data
+
+After installation, load sample people and schedules with:
+
+```bash
+php tools/seed-demo.php --yes
+```
+
+Every demonstration account uses the password `demo-password`. The administrator account is left unchanged. Replace the sample with:
+
+```bash
+php tools/seed-demo.php --yes --force
+```
+
+Use this only on a database meant for exploring the product.
+
 ## Coolify
 
 The Docker Compose stack in this fork is meant to be deployed on Coolify. It builds a PHP 8.3 image with Apache, document root `public/`, a MariaDB 11.4 service, persistent volumes, and a first-boot installer.

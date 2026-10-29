@@ -1,11 +1,20 @@
 # Verificação
 
-Data: 2026-10-28. Stack local `wsm-coolify-test`, derrubada com `docker compose down -v` ao final.
+Data: 2026-10-28.
 
-- Build da imagem executou `install.php --check`, `check-migrations.php`, `check-translations.php` e `tests/translator.php`.
-- Com `ADMIN_PASSWORD`: instalação completa, `/health.php` = `ok`, `/login` = 200.
-- Sem `ADMIN_PASSWORD`: senha gerada, arquivo `storage/initial-admin-credentials.txt` em `600 root:root`, `.env` em `640 root:www-data`.
-- Reinício do `web`: log `Installation already present (1 user account(s)). Skipping installer.` e `/health.php` = `ok`.
-- `/login` contém um campo de senha.
+## Coolify local
 
-Não verificado no Coolify em si, nem o fluxo de login com a senha no navegador.
+Stack `wsm-coolify-test`, derrubada com `docker compose down -v`.
+
+- Build executou os checks do projeto.
+- `/health.php` = `ok`, `/login` = 200.
+- Reinício do `web` pulou o instalador.
+
+## Dados de demonstração
+
+Stack `wsm-seed-test`, derrubada ao final.
+
+- `php tools/seed-demo.php --yes` criou 8 contas `demo.*`, 3 escalas, 12 linhas de funcionário, 73 turnos, 2 avisos, 2 confirmações, 1 alteração e convites `open` e `submitted`.
+- A segunda execução sem `--force` recusou a carga.
+- `--yes --force` substituiu os dados e manteve 1 administrador e 3 escalas.
+- O administrador original não foi alterado.

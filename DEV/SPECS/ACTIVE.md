@@ -2,9 +2,9 @@
 
 ## Status
 
-- Phase: ship
-- Status: fork criado e stack Coolify verificada localmente
-- Next gate: primeiro deploy no Coolify com domínio HTTPS
+- Phase: execute
+- Status: comando de dados de demonstração criado e testado localmente
+- Next gate: publicar o commit no fork e rodar o seed no Coolify
 - Started at: 2026-10-28
 
 ## Objetivo

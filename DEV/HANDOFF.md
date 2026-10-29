@@ -1,7 +1,5 @@
 # Handoff
 
-Fork `zczDief/work-schedule-manager` pronto para o Coolify pelo `docker-compose.yml`.
+O comando `php tools/seed-demo.php --yes` carrega dados de demonstração numa instalação já existente. A senha compartilhada é `demo-password`. A conta de administrador permanece. `--force` substitui a carga anterior.
 
-No Coolify: build Docker Compose, base `/`, arquivo `/docker-compose.yml`, domínio do serviço `web` na porta interna 80. Defina `ADMIN_PASSWORD` antes do primeiro deploy ou leia a senha gerada nos logs do `web`.
-
-Ainda não houve deploy no Coolify. O próximo passo é conectar o repositório lá e conferir o login em HTTPS.
+Esse comando ainda está só na árvore local. O fork no GitHub continua no commit do empacotamento Coolify até este arquivo ser publicado.
