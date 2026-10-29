@@ -11,6 +11,8 @@ publishing and managing employee shift schedules.
 
 **Original project by [QvarcY](https://github.com/QvarcY).**
 
+This repository is a modified version packaged for [Coolify](deploy/COOLIFY.md). It is not an official or unmodified release published by QvarcY.
+
 [Source code](https://github.com/QvarcY/work-schedule-manager)
 Ā·
 [Buy Me a Coffee](https://buymeacoffee.com/craftin)
@@ -162,6 +164,12 @@ http://127.0.0.1:8080
 ```
 
 The built-in PHP server is intended for development only.
+
+## Coolify
+
+The Docker Compose stack in this fork is meant to be deployed on Coolify. It builds a PHP 8.3 image with Apache, document root `public/`, a MariaDB 11.4 service, persistent volumes, and a first-boot installer.
+
+See [deploy/COOLIFY.md](deploy/COOLIFY.md).
 
 ## Production deployment
 

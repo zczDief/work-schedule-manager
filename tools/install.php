@@ -59,6 +59,9 @@ Options:
 The administrator password is generated securely by the installer
 and displayed once after a successful installation.
 
+If ADMIN_PASSWORD is set in the environment, that value is used
+instead and is not printed. It must be 12-200 characters.
+
 TXT;
 
     exit(0);
@@ -814,7 +817,24 @@ line(
     'Creating initial administrator...'
 );
 
-$password = generatedPassword();
+$passwordFromEnvironment = getenv('ADMIN_PASSWORD');
+$password = is_string($passwordFromEnvironment)
+    ? trim($passwordFromEnvironment)
+    : '';
+$passwordWasProvided = $password !== '';
+
+if (!$passwordWasProvided) {
+    $password = generatedPassword();
+} elseif (
+    strlen($password) < 12
+    || strlen($password) > 200
+    || strpbrk($password, "\r\n") !== false
+) {
+    fail(
+        'ADMIN_PASSWORD must be 12-200 characters '
+        . 'and must not contain a line break.'
+    );
+}
 
 try {
     $userModel = new User();
@@ -947,10 +967,16 @@ line(
     . $adminUsername
 );
 
-line(
-    'Administrator password: '
-    . $password
-);
+if ($passwordWasProvided) {
+    line(
+        'Administrator password source: ADMIN_PASSWORD'
+    );
+} else {
+    line(
+        'Administrator password: '
+        . $password
+    );
+}
 
 line();
 
@@ -962,10 +988,12 @@ if ($adminEmail !== '') {
     line();
 }
 
-line(
-    'Save the generated password now. '
-    . 'It will not be stored or shown again.'
-);
+if (!$passwordWasProvided) {
+    line(
+        'Save the generated password now. '
+        . 'It will not be stored or shown again.'
+    );
+}
 
 line();
 

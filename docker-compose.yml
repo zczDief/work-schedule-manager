@@ -1,0 +1,55 @@
+services:
+  web:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    restart: unless-stopped
+    environment:
+      SERVICE_URL_WEB: /
+      APP_URL: ${SERVICE_URL_WEB:?}
+      APP_DEBUG: ${APP_DEBUG:-false}
+      APP_LOCALE: ${APP_LOCALE:-lv}
+      APP_FALLBACK_LOCALE: ${APP_FALLBACK_LOCALE:-lv}
+      DB_HOST: mariadb
+      DB_PORT: 3306
+      DB_DATABASE: ${MYSQL_DATABASE:-work_schedule_manager}
+      DB_USERNAME: ${SERVICE_USER_MARIADB}
+      DB_PASSWORD: ${SERVICE_PASSWORD_64_MARIADB}
+      ADMIN_USERNAME: ${ADMIN_USERNAME:-admin}
+      ADMIN_EMAIL: ${ADMIN_EMAIL:-}
+      ADMIN_PASSWORD: ${ADMIN_PASSWORD:-}
+      EMAIL_NOTIFICATIONS_ENABLED: ${EMAIL_NOTIFICATIONS_ENABLED:-false}
+      EMAIL_FROM_ADDRESS: ${EMAIL_FROM_ADDRESS:-noreply@example.com}
+      EMAIL_FROM_NAME: ${EMAIL_FROM_NAME:-Work Schedule Manager}
+    volumes:
+      - web-storage:/var/www/html/storage
+    depends_on:
+      mariadb:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD", "curl", "--fail", "--silent", "http://127.0.0.1/health.php"]
+      interval: 30s
+      timeout: 5s
+      retries: 5
+      start_period: 60s
+
+  mariadb:
+    image: mariadb:11.4
+    restart: unless-stopped
+    environment:
+      MYSQL_ROOT_PASSWORD: ${SERVICE_PASSWORD_64_MARIADBROOT}
+      MYSQL_DATABASE: ${MYSQL_DATABASE:-work_schedule_manager}
+      MYSQL_USER: ${SERVICE_USER_MARIADB}
+      MYSQL_PASSWORD: ${SERVICE_PASSWORD_64_MARIADB}
+    volumes:
+      - mariadb-data:/var/lib/mysql
+    healthcheck:
+      test: ["CMD", "healthcheck.sh", "--connect", "--innodb_initialized"]
+      interval: 5s
+      timeout: 5s
+      retries: 20
+      start_period: 20s
+
+volumes:
+  web-storage:
+  mariadb-data:
